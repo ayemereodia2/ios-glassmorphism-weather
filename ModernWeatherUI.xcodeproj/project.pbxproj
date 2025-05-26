@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E7D878932DE3923000212A6C /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = E7D878922DE3923000212A6C /* BottomSheet */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E71454482DE27D6F0010B7C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7D878932DE3923000212A6C /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = ModernWeatherUI;
 			packageProductDependencies = (
+				E7D878922DE3923000212A6C /* BottomSheet */,
 			);
 			productName = ModernWeatherUI;
 			productReference = E71454372DE27D6C0010B7C7 /* ModernWeatherUI.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = E714542E2DE27D6C0010B7C7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E7D878912DE3923000212A6C /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E71454382DE27D6C0010B7C7 /* Products */;
 			projectDirPath = "";
@@ -558,6 +567,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E7D878912DE3923000212A6C /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Wouter125/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E7D878922DE3923000212A6C /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7D878912DE3923000212A6C /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E714542F2DE27D6C0010B7C7 /* Project object */;
 }
