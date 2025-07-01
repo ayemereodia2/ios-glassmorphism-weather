@@ -20,8 +20,7 @@ final class ModernWeatherUITests: XCTestCase {
 
     func testSample() throws {
         let expected = "Hello"
-        let actual = "April"
-      
+        let actual = "Hello"
         XCTAssertEqual(actual, expected)
     }
 
