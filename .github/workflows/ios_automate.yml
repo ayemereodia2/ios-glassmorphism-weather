@@ -15,14 +15,14 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.4'
+          xcode-version: '15.0'
       
       - name: Build the project
         run: |
           xcodebuild \
             -project ModernWeatherUI.xcodeproj \
             -scheme "ModernWeatherUI" \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             clean build
 
       - name: Run Unit Tests
@@ -30,6 +30,6 @@ jobs:
           xcodebuild \
             -project ModernWeatherUI.xcodeproj \ 
             -scheme "ModernWeatherUI" \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             test
 
