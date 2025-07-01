@@ -31,8 +31,9 @@ jobs:
       - name: Run Unit Tests
         run: |
           xcodebuild \
-            -project ModernWeatherUI.xcodeproj \ 
-            -scheme "ModernWeatherUI" \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-            test
+          -project ModernWeatherUI.xcodeproj \
+          -scheme "ModernWeatherUI" \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          test
+
 
