@@ -35,5 +35,71 @@ jobs:
           -scheme "ModernWeatherUI" \
           -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
           test
+          
+      - name: Download Appstore Connect key
+          id: app_store_connect_key
+          uses: timheuer/base64-to-file@v1.1
+          with:
+            fileName: appstore_connect_key.p8
+            encodedString: ${{ secrets.APP_STORE_CONNECT_P8 }}
+
+      - name: Cache bundle dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.2'
+          bundler-cache: true
+
+      - name: Download bundle dependencies
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install
+
+      - name: Setup SSH for Match
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MATCH_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global core.sshCommand "ssh -i ~/.ssh/id_rsa"
+      
+    - name: Install provisioning profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Create assets/env directory
+        run: mkdir -p assets/env
+  
+      - name: Create and populate env
+        run: |
+          echo "${{secrets.DEV_ENV_VARIABLE2}}" | base64 --decode > assets/env/development.env
+          echo "${{secrets.STAG_ENV_VARIABLE2}}" | base64 --decode > assets/env/staging.env
+          echo "${{secrets.PROD_ENV_VARIABLE2}}" | base64 --decode > assets/env/production.env
 
 
+      - name: Build iOS via Fastlane
+        run: |
+          bundle exec fastlane beta
+        env:
+          MATCH_GIT_TOKEN: ${{ secrets.MATCH_GIT_TOKEN }}
+          MATCH_GIT_USERNAME: ${{ secrets.MATCH_GIT_USERNAME }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APPSTORE_CONNECT_KEY_FILE: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+
+#      - name: Release to App Store (manual testflight release)
+#        run: |
+#          bundle exec fastlane upload_testflight
+#        env:
+#          MATCH_GIT_TOKEN: ${{ secrets.MATCH_GIT_TOKEN }}
+#          MATCH_GIT_USERNAME: ${{ secrets.MATCH_GIT_USERNAME }}
+#          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+#          APPSTORE_CONNECT_KEY_FILE: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
