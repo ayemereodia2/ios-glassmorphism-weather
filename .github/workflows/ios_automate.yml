@@ -19,7 +19,6 @@ jobs:
         with:
           xcode-version: '16.2'
   
-      
       - name: Build the project
         run: |
           xcodebuild \
@@ -31,17 +30,17 @@ jobs:
       - name: Run Unit Tests
         run: |
           xcodebuild \
-          -project ModernWeatherUI.xcodeproj \
-          -scheme "ModernWeatherUI" \
-          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-          test
+            -project ModernWeatherUI.xcodeproj \
+            -scheme "ModernWeatherUI" \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+            test
 
       - name: Download Appstore Connect key
-          id: app_store_connect_key
-          uses: timheuer/base64-to-file@v1.1
-          with:
-            fileName: appstore_connect_key.p8
-            encodedString: ${{ secrets.APP_STORE_CONNECT_P8 }}
+        id: app_store_connect_key
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: appstore_connect_key.p8
+          encodedString: ${{ secrets.APP_STORE_CONNECT_P8 }}
 
       - name: Cache bundle dependencies
         uses: actions/cache@v3
@@ -70,7 +69,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global core.sshCommand "ssh -i ~/.ssh/id_rsa"
       
-    - name: Install provisioning profile
+      - name: Install provisioning profile
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
@@ -93,12 +92,3 @@ jobs:
           MATCH_GIT_USERNAME: ${{ secrets.MATCH_GIT_USERNAME }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APPSTORE_CONNECT_KEY_FILE: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-
-#      - name: Release to App Store (manual testflight release)
-#        run: |
-#          bundle exec fastlane upload_testflight
-#        env:
-#          MATCH_GIT_TOKEN: ${{ secrets.MATCH_GIT_TOKEN }}
-#          MATCH_GIT_USERNAME: ${{ secrets.MATCH_GIT_USERNAME }}
-#          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-#          APPSTORE_CONNECT_KEY_FILE: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
