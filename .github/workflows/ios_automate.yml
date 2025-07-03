@@ -35,12 +35,12 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             test
 
-      - name: Download Appstore Connect key
-        id: app_store_connect_key
-        uses: timheuer/base64-to-file@v1.1
-        with:
-          fileName: appstore_connect_key.p8
-          encodedString: ${{ secrets.APP_STORE_CONNECT_P8 }}
+#      - name: Download Appstore Connect key
+#        id: app_store_connect_key
+#        uses: timheuer/base64-to-file@v1.1
+#        with:
+#          fileName: appstore_connect_key.p8
+#          encodedString: ${{ secrets.APP_STORE_CONNECT_P8 }}
 
       - name: Cache bundle dependencies
         uses: actions/cache@v3
